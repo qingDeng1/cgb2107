@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!--namespace是mybaits映射文件的唯一标识,与接口对应-->
+<mapper namespace="cn.yd.mapper.DemoUserMapper">
+    <!--id 表示接口方法
+        resultType 返回值结果类型
+    -->
+    <select id="findAll" resultType="cn.yd.pojo.DemoUser">
+        select * from demo_user
+    </select>
+
+    <select id="findOne" parameterType="int" resultType="cn.yd.pojo.DemoUser">
+        select * from demo_user where id = #{id}
+    </select>
+
+    <!--说明：parameterType其中的类型程序可以根据参数自动判断    -->
+    <select id="findNmae" parameterType="String"  resultType="cn.yd.pojo.DemoUser">
+        select * from demo_user where name = #{name}
+    </select>
+
+    <select id="findSex" resultType="cn.yd.pojo.DemoUser">
+        select * from demo_user where sex = #{sex} and age = #{age}
+    </select>
+
+
+</mapper>

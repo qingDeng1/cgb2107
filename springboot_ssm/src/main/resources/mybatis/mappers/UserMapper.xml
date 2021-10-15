@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!--namespace是mybaits映射文件的唯一标识,与接口对应-->
+<mapper namespace="cn.yd.mapper.UserMapper">
+    <select id="findAll" resultType="User">
+        select *
+        from demo_user
+    </select>
+
+    <select id="findById" resultType="User">
+        select *
+        from demo_user
+        where id = #{id}
+    </select>
+
+    <!--3.1、根据name和age查询用户信息-->
+    <select id="findMore" resultType="User">
+        select *
+        from demo_user
+        where name = #{name}
+          and age = #{age}
+    </select>
+
+    <!--3.2查询名称以"xxx"结尾的数据.   URL: http://localhost:8090/findUserLike?name=“xx”-->
+    <select id="findDim" resultType="User">
+        select *
+        from demo_user
+        where name like #{names}
+    </select>
+
+    <!--3.3查询id为 1,3,5,6,7的数据    URL: http://localhost:8090/findUserByIds?id=1,3,5,6,7-->
+    <select id="findIds" resultType="User">
+        select * from demo_user where id in (
+        <foreach collection="array" item="id" separator=",">
+            #{id}
+        </foreach>
+        )
+    </select>
+
+    <!--*3.4根据对象中不为null的元素查询数据 动态Sql查询
+        URL: http://localhost:8090/findUser?id=xx&name=“xx”&age=xx&sex=xx
+        URL: http://localhost:8090/findUser?age=xx&sex=xx
+        URL: http://localhost:8090/findUser?sex=xx
+        */-->
+    <select id="findNull" resultType="User">
+        select * from demo_user
+        <where>
+            <if test="id != null">id = #{id}</if>
+            <if test="name != null">and name=#{name}</if>
+            <if test="age !=null">and age=#{age}</if>
+            <if test="sex !=null">and sex=#{sex}</if>
+        </where>
+    </select>
+
+
+    <!--*3.5更新操作 利用restFul的结构, 根据Id修改数据,修改name/age
+        URL:http://localhost:8090/user/貂蝉/18/227
+        解析: URL:http://localhost:8090/user/{name}/{age}/{id}*/-->
+    <update id="updateMore">
+        update demo_user
+        <set>
+            <if test="name !=null">name = #{name},</if>
+            <if test="age !=null">age = #{age},</if>
+            <if test="sex !=null">sex = #{sex}</if>
+        </set>
+        where
+        id = #{id}
+    </update>
+
+</mapper>

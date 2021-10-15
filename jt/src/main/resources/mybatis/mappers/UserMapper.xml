@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!--namespace是mybaits映射文件的唯一标识,与接口对应-->
+<mapper namespace="cn.yd.mapper.UserMapper">
+    <select id="findAll" resultType="User">
+        select * from user
+    </select>
+
+    <!--query有参数 则添加like关键字-->
+    <select id="findUserListByPage" resultType="User">
+        SELECT * FROM `user`
+        <where>
+            <if test="query != null and query != ''">username LIKE "%"#{query}"%"</if>
+        </where>
+        LIMIT #{start},#{size}
+    </select>
+
+    <!--实现user入库操作    -->
+    <insert id="addUser">
+        insert into user values(null,#{username},#{password},#{phone},#{email},#{status},#{created},#{updated})
+    </insert>
+</mapper>

@@ -1,0 +1,22 @@
+#指定环境的默认配置
+spring:
+  profiles:
+    active: prod
+---
+#为环境定义名称
+server:
+  port: 8080
+
+spring:
+  config:
+    activate:
+      on-profile: dev
+
+# 采用---的方式实现环境分割
+---
+server:
+  port: 9090
+spring:
+  config:
+    activate:
+      on-profile: prod

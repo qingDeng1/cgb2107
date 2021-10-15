@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Axios-get练习</title>
+		<script src="../js/axios.js"></script>
+		<script src="../js/vue.js"></script>
+	</head>
+	<body>
+		<h1>根据ID查询用户信息</h1>
+		<script>
+			/**
+			 * 作业1：根据ID查询用户信息
+			 * 作业2：根据age/sex查询用户信息
+			 */
+			let url1 = "http://localh ost:8080/user/findById?id=1"
+			axios.get(url1)
+				.then(function(promise) {
+					console.log(promise.data)
+				})
+		</script>
+	</body>
+</html>

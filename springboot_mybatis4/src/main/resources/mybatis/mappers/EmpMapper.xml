@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.yd.mapper.EmpMapper">
+
+    <select id="findAll" resultMap="empMap">
+        select e.id, e.name, e.age, d.dept_id, d.dept_name
+        from emp e,
+             dept d
+        where e.dept_id = d.dept_id
+    </select>
+    <resultMap id="empMap" type="Emp" autoMapping="true">
+        <id column="id" property="id"></id>
+        <association property="dept" javaType="Dept">
+            <id column="dept_id" property="deptId"></id>
+            <result column="dept_name" property="deptName"/>
+        </association>
+    </resultMap>
+
+    <select id="findSon" resultMap="empMap2">
+        select * from emp
+    </select>
+    <resultMap id="empMap2" type="Emp" autoMapping="true">
+        <id column="id" property="id"/>
+        <association property="dept" javaType="Dept" column="dept_id" select="findDept"/>
+    </resultMap>
+    <select id="findDept" resultMap="deptMap">
+        select * from dept where dept_id = #{dept_id}
+    </select>
+    <resultMap id="deptMap" type="Dept">
+        <id column="dept_id" property="deptId"/>
+        <result column="dept_name" property="deptName"/>
+    </resultMap>
+
+    <select id="findMore" resultMap="listRM">
+        select * from dept d
+        left join emp e on d.dept_id = e.dept_id
+    </select>
+    <resultMap id="listRM" type="Dept">
+        <id column="dept_id" property="deptId"/>
+<!--        <result column="dept_name" property="deptName"/>-->
+        <collection property="lists" ofType="Emp" autoMapping="true">
+            <id column="id" property="id"/>
+        </collection>
+    </resultMap>
+</mapper>

@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!--namespace是mybaits映射文件的唯一标识,与接口对应-->
+<mapper namespace="cn.yd.mapper.DemoUserMapper">
+    <!--id 表示接口方法
+        resultType 返回值结果类型
+    -->
+    <select id="findAll" resultType="cn.yd.pojo.DemoUser">
+        select * from demo_user
+    </select>
+
+    <select id="findOne" parameterType="int" resultType="cn.yd.pojo.DemoUser">
+        select * from demo_user where id = #{id}
+    </select>
+
+    <!--说明：parameterType其中的类型程序可以根据参数自动判断    -->
+    <select id="findNmae" parameterType="String"  resultType="cn.yd.pojo.DemoUser">
+        select * from demo_user where name = #{name}
+    </select>
+
+    <select id="findSex" resultType="cn.yd.pojo.DemoUser">
+        select * from demo_user where sex = #{sex} and age = #{age}
+    </select>
+
+    <!--根据ID查询用户数据-->
+    <select id="findUserById" parameterType="Integer" resultType="cn.yd.pojo.DemoUser">
+        select * from demo_user where id = #{id}
+    </select>
+
+    <!--实现数据新增 新增成功之后自动返回影响的行数
+        数据取值时 使用#{属性名} 获取数据
+    -->
+    <insert id="saveUser" parameterType="cn.yd.pojo.DemoUser">
+        insert into demo_user(id,name,age,sex) value (null,#{name},#{age},#{sex})
+    </insert>
+
+    <update id="updateUser" parameterType="cn.yd.pojo.DemoUser">
+        update demo_user set name = #{name}, age = #{age}, sex = #{sex} where id = #{id}
+    </update>
+
+    <delete id="deleteUserById" parameterType="Integer">
+        delete from demo_user where id = #{id}
+    </delete>
+
+
+
+    <!--特殊转义字符
+        > &gt;
+        < &lt;
+        & &amp;
+        万能转义标签   <![CDATA[ 需要转义的内容 ]]>
+    -->
+    <select id="findUserListByAge" parameterType="map" resultType="cn.yd.pojo.DemoUser">
+        select * from demo_user where age >= #{minAge} and age &lt;= #{maxAge}
+    </select>
+
+    <delete id="deleteIds">
+        delete from demo_user where id in
+        <foreach collection="array" item="id" open="(" close=")" index="" separator=",">
+            #{id}
+        </foreach>
+    </delete>
+
+    <!--删除List集合中的数据-->
+    <delete id="deleteList">
+        delete from demo_user where id in (
+        <foreach collection="list" item="id" separator=",">
+            #{id}
+        </foreach>
+        )
+    </delete>
+
+    <!--删除List集合中的数据 如何是map,则写map中的key-->
+    <delete id="deleteMap">
+        delete from demo_user where id in (
+        <foreach collection="ids" item="id" separator=",">
+            #{id}
+        </foreach>
+        )
+    </delete>
+
+    <!--2.1 查询age<100岁的女性用户.    -->
+    <select id="select1" resultType="cn.yd.pojo.DemoUser">
+        select * from demo_user where age &lt;= #{age} and sex= #{sex}
+    </select>
+
+    <!--2.2 查询name中包含"精"的数据.并且按照年龄降序排列   -->
+    <select id="select2" resultType="cn.yd.pojo.DemoUser">
+        select * from demo_user where name like #{name} order by age desc
+    </select>
+
+    <!--2.3 查询age位于100-300的数据   -->
+    <select id="select3" resultType="cn.yd.pojo.DemoUser">
+        select * from demo_user where age between #{age1} and #{age2}
+    </select>
+
+    <!--2.4 将name为小乔/大乔/王昭君的年龄改为18岁,性别女-->
+    <!--
+        注意事项：mybatis中的sql最好小写，因为不同的系统对于大小写，不敏感
+    -->
+    <update id="updateNames">
+        update demo_user
+        <set>
+            <if test="age != null">age = #{age},</if>
+            <if test=" sex != null">sex = #{sex}</if>
+        </set>
+        where name in (
+            <foreach collection="name" item="name" separator=",">
+                #{name}
+            </foreach>
+        )
+--         ("小乔","大乔","王昭君");
+    </update>
+
+
+
+
+
+
+
+
+
+</mapper>

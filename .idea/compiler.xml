@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile default="true" name="Default" enabled="true" />
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="springboot_demo2" />
+        <module name="springboot_demo1" />
+        <module name="springboot_mybatis2" />
+        <module name="springboot_mybatis3" />
+        <module name="springboot_ssm" />
+        <module name="springboot_mybatis" />
+        <module name="springboot_mybatis4" />
+        <module name="springboot_mp" />
+        <module name="jt" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="jt" target="1.8" />
+      <module name="springboot_demo1" target="1.8" />
+      <module name="springboot_demo2" target="1.8" />
+      <module name="springboot_demo3_mybatis" target="1.8" />
+      <module name="springboot_mp" target="1.8" />
+      <module name="springboot_mybatis" target="1.8" />
+      <module name="springboot_mybatis1" target="1.8" />
+      <module name="springboot_mybatis2" target="1.8" />
+      <module name="springboot_mybatis3" target="1.8" />
+      <module name="springboot_mybatis4" target="1.8" />
+      <module name="springboot_ssm" target="1.8" />
+    </bytecodeTargetLevel>
+  </component>
+</project>
