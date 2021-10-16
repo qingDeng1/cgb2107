@@ -44,7 +44,7 @@
               @change="updateStatus(scope.row)"></el-switch>
           </template>
         </el-table-column>
-       <!-- <el-table-column prop="updated" label="更新时间" width="180px" :formatter="formatDate">
+        <!-- <el-table-column prop="updated" label="更新时间" width="180px" :formatter="formatDate">
         </el-table-column> -->
         <el-table-column label="操作">
           <template slot-scope="scope">
@@ -63,6 +63,34 @@
 
     </el-card>
 
+
+    <!-- 添加修改分类对话框 -->
+    <!-- 标题/卖点/价格/数量 -->
+    <el-dialog title="修改列表商品信息" :visible.sync="updateItemCatDialogVisible" width="50%">
+      <!-- 定义分类表单 -->
+      <el-form :model="updateItemCatForm" ref="upDateItemCatForm" label-width="100px">
+        <el-form-item label="标题:" prop="title">
+          <el-input v-model="updateItemCatForm.title"></el-input>
+        </el-form-item>
+        <el-form-item label="卖点:" prop="sellPoint">
+          <el-input v-model="updateItemCatForm.sellPoint"></el-input>
+        </el-form-item>
+        <el-form-item label="价格:" prop="price">
+          <el-input v-model="updateItemCatForm.price"></el-input>
+        </el-form-item>
+        <el-form-item label="数量:" prop="num">
+          <el-input v-model="updateItemCatForm.num"></el-input>
+        </el-form-item>
+
+      </el-form>
+
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="updateItemCatDialog()" >取 消</el-button>
+        <el-button type="primary" @click="updateItem">确 定</el-button>
+      </span>
+    </el-dialog>
+
+
   </div>
 </template>
 
@@ -78,7 +106,11 @@
           pageNum: 1,
           pageSize: 10
         },
-        total: 0
+        total: 0,
+        //定义修改对话框属性
+        updateItemCatDialogVisible: false,
+        updateItemCatForm: {}
+
       }
     },
     created() {
@@ -86,6 +118,30 @@
       this.getItemList()
     },
     methods: {
+      //由于有层级关系,所有修改只能修改名称
+      updateItemBtn(item) {
+        this.updateItemCatForm = item
+        this.updateItemCatDialogVisible = true
+      },
+
+      updateItemCatDialog(){
+        this.updateItemCatDialogVisible = false
+        this.getItemList()
+      },
+
+      async updateItem() {
+        //修改商品分类信息
+        // 标题/卖点/价格/数量
+        const {
+          data: result
+        } = await this.$http.put(`/item/updateItem`, this.updateItemCatForm)
+        if (result.status !== 200) return this.$message.error("修改商品分类信息失败")
+        this.$message.success("修改商品分类信息成功")
+        this.getItemList();
+        this.updateItemCatDialogVisible = false;
+      },
+
+
       //实现商品信息分页查询
       async getItemList() {
         const {
@@ -155,13 +211,14 @@
         });
       },
       //转向到商品新增页面
-      toAddItem(){
+      toAddItem() {
         this.$router.push("/item/addItem")
       },
-      updateItemBtn(){
-        console.log("扩展案例,自己实现 只需要修改 标题/卖点/价格/数量")
-      }
+      // updateItemBtn() {
+      //   console.log("扩展案例,自己实现 只需要修改 标题/卖点/价格/数量")
+      // }
     }
+
   }
 </script>
 <!-- 防止组件样式冲突 -->

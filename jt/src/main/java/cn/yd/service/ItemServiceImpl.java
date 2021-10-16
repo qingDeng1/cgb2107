@@ -14,10 +14,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
-public class ItemServiceImpl implements ItemService{
+public class ItemServiceImpl implements ItemService {
     @Autowired
     private ItemMapper itemMapper;
     @Autowired
@@ -44,19 +45,19 @@ public class ItemServiceImpl implements ItemService{
 //    }
 
     /*MP实现分页
-    * 语法：selectPage语法说明
-    *       1、page:MP内部指定的分页对象
-    *       2、queryWrapper:条件构造器
-    *       SQL: where title like "%xx%"
-    *
-    * */
+     * 语法：selectPage语法说明
+     *       1、page:MP内部指定的分页对象
+     *       2、queryWrapper:条件构造器
+     *       SQL: where title like "%xx%"
+     *
+     * */
     @Override
     public PageResult getItemList(PageResult pageResult) {
         boolean flag = StringUtils.hasLength(pageResult.getQuery());
         QueryWrapper<Item> queryWrapper = new QueryWrapper<>();
-        queryWrapper.like(flag,"title", pageResult.getQuery());
+        queryWrapper.like(flag, "title", pageResult.getQuery());
         //编辑MP的分页对象四个属性有用(页数页数/条数/总数/记录) 传递=页数/条数
-        IPage<Item> page = new Page<>(pageResult.getPageNum(),pageResult.getPageSize());
+        IPage<Item> page = new Page<>(pageResult.getPageNum(), pageResult.getPageSize());
         page = itemMapper.selectPage(page, queryWrapper);
         //1、总数
         long total = page.getTotal();
@@ -86,5 +87,14 @@ public class ItemServiceImpl implements ItemService{
         ItemDesc itemDesc = itemVo.getItemDesc();
         itemDesc.setId(item.getId());
         itemDescMapper.insert(itemDesc);
+    }
+
+    @Override
+    public void updateItem(Item item) {
+        Date date = new Date();
+        item.setStatus(true);
+//                .setCreated(date)
+//                .setUpdated(date);
+        itemMapper.updateById(item);
     }
 }

@@ -67,6 +67,12 @@ public class ItemController {
      * 请求参数: 表单数据 Item对象
      * 返回值: SysResult对象
      * */
+    @PutMapping("/updateItem")
+    public SysResult updateItem(@RequestBody Item item) {
+        itemService.updateItem(item);
+        return SysResult.success();
+    }
+
 
     /*
     * 实现商品的新增

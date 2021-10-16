@@ -17,7 +17,8 @@ import java.util.UUID;
 public class FileServiceImpl implements FileService {
 
     private String localDir = "D:/images";
-    private String urlPath = "http://deng.com";
+//    private String urlPath = "http://deng.com";
+    private String urlPath = "file:///D:/images";
     /**
      * 考虑的问题:
      * 1. 校验图片类型    xx.jpg
