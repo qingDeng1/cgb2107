@@ -1,5 +1,6 @@
 package cn.yd.controller;
 
+import cn.yd.pojo.ItemCat;
 import cn.yd.pojo.Rights;
 import cn.yd.service.RightsService;
 import cn.yd.vo.SysResult;
@@ -23,10 +24,18 @@ public class RightsController {
     * 参数：没有参数
     * 返回值：SysResult(List)
     * */
-    @GetMapping("getRightsList")
+    @GetMapping("/getRightsList")
     public SysResult getRightsList() {
         List<Rights> list = rightsService.getRightsList();
         return SysResult.success(list);
     }
+
+    @GetMapping("/findRightsList/{level}")
+    public SysResult findItemCatList(@PathVariable Integer level) {
+        List<Rights> list = rightsService.findRightsList(level);
+        return SysResult.success(list);
+    }
+
+
 
 }

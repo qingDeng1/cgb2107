@@ -1,6 +1,5 @@
 package cn.yd.service;
 
-import cn.yd.mapper.ItemCatMapper;
 import cn.yd.mapper.ItemDescMapper;
 import cn.yd.mapper.ItemMapper;
 import cn.yd.pojo.Item;

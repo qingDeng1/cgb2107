@@ -7,6 +7,7 @@ import User from '../components/user/user.vue'
 import Item from '../components/items/Item.vue'
 import ItemCat from '../components/items/ItemCat.vue'
 import addItem from '../components/items/addItem.vue'
+import Rights from '../components/permission/Rights.vue'
 //使用路由机制
 Vue.use(VueRouter)
 const routes = [{
@@ -39,9 +40,14 @@ const routes = [{
       {
         path: '/item/addItem',
         component: addItem
+      },
+      {
+        path: '/rights',
+        component: Rights
       }
     ]
   }
+  
 ]
 
 //路由对象的定义
